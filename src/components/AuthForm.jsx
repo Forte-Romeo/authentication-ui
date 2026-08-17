@@ -11,7 +11,7 @@ function AuthForm() {
 
             <form className="auth-form">
                 <div className="form-group">
-                    <label htmlFor="email">Email Address/</label>
+                    <label htmlFor="email">Email Address</label>
 
                     <input 
                         type="email" 
