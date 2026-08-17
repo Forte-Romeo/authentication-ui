@@ -1,10 +1,11 @@
-function Input({ label, type, placeholder }) {
+function Input({ label, type="text", placeholder, id }) {
     return (
         <div className="form-group">
-            <label>{label}</label>
+            <label htmlFor={id}>{label}</label>
 
             <input 
                 type={type}
+                id={id}
                 placeholder={placeholder}
             />
         </div>
