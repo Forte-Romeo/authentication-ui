@@ -45,7 +45,13 @@ function AuthForm() {
                         <span>Remember me</span>
                     </label>
 
-                    <a href="#">Forgot password?</a>
+                    <button
+                        type="button"
+                        className="text-button"
+                        onClick={() => setAuthMode("forgot")}
+                    >
+                        Forgot password?
+                    </button>
                 </div>
 
                 <Button type="submit">
