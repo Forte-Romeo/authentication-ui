@@ -1,8 +1,10 @@
+import AuthForm from "./components/AuthForm";
+
 function App() {
   return (
-    <div>
-      <h1>Authentication UI</h1>
-    </div>
+    <main className="auth-page">
+      <AuthForm />
+    </main>
   );
 }
 
