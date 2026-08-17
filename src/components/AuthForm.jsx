@@ -1,7 +1,11 @@
+import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 
 function AuthForm() {
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+
     return(
         <div className="auth-card">
             <div className="auth-header">
@@ -18,6 +22,8 @@ function AuthForm() {
                     type="email"
                     id="email"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                 />
 
                 <Input
@@ -25,6 +31,8 @@ function AuthForm() {
                     type="password"
                     id="password"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
                 />
 
                 <div className="form-options">
