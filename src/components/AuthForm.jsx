@@ -3,8 +3,9 @@ import Input from "./Input";
 import Button from "./Button";
 
 function AuthForm() {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     return(
         <div className="auth-card">
@@ -33,6 +34,8 @@ const [password, setPassword] = useState("");
                     placeholder="Enter your password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
+                    showPassword={showPassword}
+                    onTogglePassword={() => setShowPassword(!showPassword)}
                 />
 
                 <div className="form-options">
