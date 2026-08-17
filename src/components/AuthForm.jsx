@@ -16,12 +16,14 @@ function AuthForm() {
                 <Input
                     label="Email address"
                     type="email"
+                    id="email"
                     placeholder="Enter your email"
                 />
 
                 <Input
                     label="Password"
                     type="password"
+                    id="password"
                     placeholder="Enter your password"
                 />
 
