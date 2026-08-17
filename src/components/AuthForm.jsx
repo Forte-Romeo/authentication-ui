@@ -1,3 +1,6 @@
+import Input from "./Input";
+import Button from "./Button";
+
 function AuthForm() {
     return(
         <div className="auth-card">
@@ -10,25 +13,17 @@ function AuthForm() {
             </div>
 
             <form className="auth-form">
-                <div className="form-group">
-                    <label htmlFor="email">Email Address</label>
+                <Input
+                    label="Email address"
+                    type="email"
+                    placeholder="Enter your email"
+                />
 
-                    <input 
-                        type="email" 
-                        id="email"
-                        placeholder="Enter your email"
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-
-                    <input 
-                        type="password" 
-                        id="password"
-                        placeholder="Enter your password"
-                    />
-                </div>
+                <Input
+                    label="Password"
+                    type="password"
+                    placeholder="Enter your password"
+                />
 
                 <div className="form-options">
                     <label className="remember-me">
@@ -39,9 +34,9 @@ function AuthForm() {
                     <a href="#">Forgot password?</a>
                 </div>
 
-                <button type="submit" className="auth-button">
+                <Button type="submit">
                     Sign In
-                </button>
+                </Button>
             </form>
 
             <div className="auth-footer">
