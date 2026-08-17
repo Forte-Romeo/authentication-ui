@@ -1,4 +1,4 @@
-function Input({ label, type="text", placeholder, id }) {
+function Input({ label, type="text", placeholder, id, value, onChange }) {
     return (
         <div className="form-group">
             <label htmlFor={id}>{label}</label>
@@ -7,6 +7,8 @@ function Input({ label, type="text", placeholder, id }) {
                 type={type}
                 id={id}
                 placeholder={placeholder}
+                value={value}
+                onChange={onChange}
             />
         </div>
     );
