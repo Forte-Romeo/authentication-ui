@@ -125,3 +125,13 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+.text-button {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    color: #1f1f1f;
+    font-weight: 600;
+    cursor: pointer;
+}
