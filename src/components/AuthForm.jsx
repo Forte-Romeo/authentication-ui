@@ -6,6 +6,7 @@ function AuthForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [authMode, setAuthMode] = useState("login");
 
     return(
         <div className="auth-card">
@@ -53,9 +54,31 @@ function AuthForm() {
             </form>
 
             <div className="auth-footer">
-                <p>
-                    Don't have an account? <a href="#">Sign up</a>
-                </p>
+                {authMode === "login" && (
+                    <p>
+                        Don't have an account?{" "}
+                        <button
+                            type="button"
+                            className="text-button"
+                            onClick={() => setAuthMode("signup")}    
+                        >
+                            Sign up
+                        </button>
+                    </p>
+                )}
+
+                {authMode === "signup" && (
+                    <p>
+                        Already have an account?{" "}
+                        <button
+                            type="button"
+                            className="text-button"
+                            onClick={() => setAuthMode("login")}    
+                        >
+                            Sign in
+                        </button>
+                    </p>
+                )}
             </div>
         </div>
     );
