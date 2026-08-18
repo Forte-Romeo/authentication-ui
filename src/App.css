@@ -135,3 +135,15 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+.terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b6b6b;
+}
+
+.terms-checkbox input {
+    margin-top: 2px;
+}
