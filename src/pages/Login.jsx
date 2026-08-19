@@ -1,11 +1,16 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { isValidEmail } from "../utils/validation"
 
 function Login({ onSignup, onForgotPassword }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   return (
     <>
