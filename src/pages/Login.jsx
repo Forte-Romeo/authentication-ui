@@ -12,6 +12,36 @@ function Login({ onSignup, onForgotPassword }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const newErrors = {};
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!password.trim()) {
+      newErrors.password = "Password is required.";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    setLoading(true);
+    setSuccess("");
+
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess("Login successful.");
+    }, 1500);
+}
+
   return (
     <>
       <div className="auth-header">
@@ -22,7 +52,7 @@ function Login({ onSignup, onForgotPassword }) {
         <p>Sign in to continue to your account.</p>
       </div>
 
-      <form className="auth-form">
+      <form className="auth-form" onSubmit={handleSubmit}>
         <Input
           label="Email address"
           type="email"
@@ -30,6 +60,7 @@ function Login({ onSignup, onForgotPassword }) {
           placeholder="Enter your email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          error={errors.email}
         />
 
         <Input
@@ -41,6 +72,7 @@ function Login({ onSignup, onForgotPassword }) {
           onChange={(event) => setPassword(event.target.value)}
           showPassword={showPassword}
           onTogglePassword={() => setShowPassword(!showPassword)}
+          error={errors.password}
         />
 
         <div className="form-options">
@@ -58,10 +90,16 @@ function Login({ onSignup, onForgotPassword }) {
           </button>
         </div>
 
-        <Button type="submit">
+        <Button type="submit" loading={loading}>
           Sign In
         </Button>
       </form>
+
+      {success && (
+        <div className="success-message">
+          {success}
+        </div>
+      )}
 
       <div className="auth-footer">
         <p>
