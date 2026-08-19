@@ -162,3 +162,13 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.success-message {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f0f7f2;
+    color: #287a43;
+    font-size: 13px;
+    text-align: center;
+}
