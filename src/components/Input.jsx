@@ -1,4 +1,4 @@
-function Input({ label, type="text", placeholder, id, value, onChange, showPassword, onTogglePassword }) {
+function Input({ label, type="text", placeholder, id, value, onChange, showPassword, onTogglePassword, error }) {
     const inputType =
         type === "password" && showPassword
             ? "text"
@@ -15,6 +15,7 @@ function Input({ label, type="text", placeholder, id, value, onChange, showPassw
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                className={error ? "input-error" : ""}
             />
 
             {type === "password" && (
@@ -27,6 +28,12 @@ function Input({ label, type="text", placeholder, id, value, onChange, showPassw
                 </button>
             )}
             </div>
+
+            {error && (
+                <span className="error-message">
+                    {error}
+                </span>
+            )}
         </div>
     );
 }
