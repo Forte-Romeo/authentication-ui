@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { isValidEmail } from "../utils/validation"
+import PasswordRequirements from "../components/PasswordRequirements";
 
 function Signup({ onLogin }) {
     const [fullName, setFullName] = useState("");
@@ -109,6 +110,8 @@ function Signup({ onLogin }) {
                 onTogglePassword={() => setShowPassword(!showPassword)}
                 error={errors.password}
             />
+
+            <PasswordRequirements password={password} />
 
             <Input
                 label="Confirm password"
