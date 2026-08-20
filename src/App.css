@@ -220,6 +220,43 @@
     text-align: center;
 }
 
+.password-requirements {
+    margin-top: -8px;
+    padding: 12px;
+    border-radius: 9px;
+    background: #f7f7f5;
+}
+
+.password-requirements p {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.password-requirements ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.password-requirements li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #888888;
+    font-size: 12px;
+}
+
+.password-requirements li span {
+    width: 14px;
+    font-size: 12px;
+}
+
+.password-requirements .requirement-valid {
+    color: #287a43;
+}
+
 @media (max-width: 480px) {
     .auth-page {
         padding: 20px 14px;
