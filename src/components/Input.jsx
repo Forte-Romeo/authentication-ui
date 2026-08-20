@@ -16,6 +16,8 @@ function Input({ label, type="text", placeholder, id, value, onChange, showPassw
                 value={value}
                 onChange={onChange}
                 className={error ? "input-error" : ""}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? `${id}-error` : undefined}
             />
 
             {type === "password" && (
@@ -23,6 +25,11 @@ function Input({ label, type="text", placeholder, id, value, onChange, showPassw
                     type="button"
                     className="password-toggle"
                     onClick={onTogglePassword}
+                    aria-label={
+                        showPassword
+                            ? "Hide password"
+                            : "Show password"   
+                    }
                 >
                     {showPassword ? "Hide" : "Show"}
                 </button>
@@ -30,7 +37,7 @@ function Input({ label, type="text", placeholder, id, value, onChange, showPassw
             </div>
 
             {error && (
-                <span className="error-message">
+                <span id={`${id}-error`} className="error-message">
                     {error}
                 </span>
             )}
