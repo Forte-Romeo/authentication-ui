@@ -35,9 +35,13 @@ function Signup({ onLogin }) {
 
         if (!password.trim()) {
             newErrors.password = "Password is required.";
-        } else if (password.length < 8) {
+        } else if (
+            password.length < 8 ||
+            !/\d/.test(password) ||
+            !/[A-Z]/.test(password)
+        ) {
             newErrors.password =
-            "Password must be at least 8 characters.";
+            "Password does not meet the requirements.";
         }
 
         if (!confirmPassword.trim()) {
