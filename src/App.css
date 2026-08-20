@@ -109,11 +109,17 @@
     color: #ffffff;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
+    transition: 
+        opacity 0.2s ease,
+        transform 0.1s ease;
 }
 
-.auth-button:hover {
+.auth-button:hover:not(:disabled) {
     opacity: 0.9;
+}
+
+.auth-button:active:not(:disabled) {
+    transform: scale(0.99);
 }
 
 .auth-footer {
@@ -188,7 +194,6 @@
 
 .auth-button:disabled {
     opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .success-message {
