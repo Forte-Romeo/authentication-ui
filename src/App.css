@@ -141,9 +141,15 @@
     transform: translateY(-50%);
     border: none;
     background: transparent;
+    padding: 4px;
+    color: #555555;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #1f1f1f;
 }
 
 .text-button {
