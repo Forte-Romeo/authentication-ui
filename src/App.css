@@ -197,12 +197,14 @@
 }
 
 .success-message {
-    margin-top: 16px;
-    padding: 12px;
-    border-radius: 8px;
-    background: #f0f7f2;
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px solid #d8eadc;
+    border-radius: 9px;
+    background: #f2f8f3;
     color: #287a43;
     font-size: 13px;
+    line-height: 1.5;
     text-align: center;
 }
 
