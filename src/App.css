@@ -22,19 +22,22 @@
 }
 
 .auth-header h1 {
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 700;
     letter-spacing: 3px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
 .auth-header h2 {
     font-size: 30px;
+    line-height: 1.2;
     margin-bottom: 10px;
 }
 
 .auth-header p {
     color: #6b6b6b;
     font-size: 14px;
+    line-height: 1.6;
 }
 
 .auth-form {
