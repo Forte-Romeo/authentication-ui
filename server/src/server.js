@@ -1,9 +1,9 @@
-import "dotenv/config";
-import process from "node:process";
 import app from "./app.js";
+import env from "./config/env.js";
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Authentication API running on port ${PORT}`);
+app.listen(env.port, () => {
+    console.log(
+        `Authentication API running on http://localhost:${env.port}`
+    );
 });
