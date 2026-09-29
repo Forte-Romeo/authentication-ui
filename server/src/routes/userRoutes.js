@@ -4,14 +4,11 @@ import {
     getUsers,
     getUserById,
     getUserByEmail,
-    createTestUser,
     updateUserById,
     deleteUserById,
 } from "../controllers/userController.js";
 
 import asyncHandler from "../utils/asyncHandler.js";
-import validate from "../middleware/validateMiddleware.js";
-import { validateCreateUser } from "../utils/userValidation.js";
 
 const router = express.Router();
 
@@ -28,12 +25,6 @@ router.get(
 router.get(
     "/:id",
     asyncHandler(getUserById)
-);
-
-router.post(
-    "/test",
-    validate(validateCreateUser),
-    asyncHandler(createTestUser)
 );
 
 router.patch(

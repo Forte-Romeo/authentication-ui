@@ -21,6 +21,11 @@ const validateCreateUser = (body) => {
             field: "name",
             message: "Name must be at least 2 characters",
         });
+    } else if (name.trim().length > 100) {
+        errors.push({
+            field: "name",
+            message: "Name must not exceed 100 characters",
+        });
     }
 
     if (!email || typeof email !== "string") {
@@ -50,6 +55,44 @@ const validateCreateUser = (body) => {
             field: "password",
             message: "Password must be at least 8 characters",
         });
+    } else if (password.length > 72) {
+        errors.push({
+            field: "password",
+            message: "Password must not exceed 72 characters",
+        });
+    } else if (!/\d/.test(password)) {
+        errors.push({
+            field: "password",
+            message: "Password must contain at least one number",
+        });
+    } else if (!/[A-Z]/.test(password)) {
+        errors.push({
+            field: "password",
+            message: "Password must contain at least one uppercase letter",
+        });
+    }
+
+    return errors;
+};
+
+const validateSignup = (body) => {
+    const errors = validateCreateUser(body);
+
+    const { password, confirmPassword } = body;
+
+    if (
+        confirmPassword === undefined ||
+        typeof confirmPassword !== "string"
+    ) {
+        errors.push({
+            field: "confirmPassword",
+            message: "Please confirm your password",
+        });
+    } else if (password !== confirmPassword) {
+        errors.push({
+            field: "confirmPassword",
+            message: "Passwords do not match",
+        });
     }
 
     return errors;
@@ -66,6 +109,7 @@ const normalizeName = (name) => {
 export {
     isValidEmail,
     validateCreateUser,
+    validateSignup,
     normalizeEmail,
     normalizeName,
 };

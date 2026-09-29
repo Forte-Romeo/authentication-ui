@@ -2,7 +2,6 @@ import {
     findUserById,
     findUserByEmail,
     findAllUsers,
-    createUser,
     updateUser,
     deleteUser,
 } from "../repositories/userRepository.js";
@@ -66,39 +65,6 @@ const getUserByEmail = async (req, res) => {
     });
 };
 
-const createTestUser = async (req, res) => {
-    const name = normalizeName(req.body.name);
-    const email = normalizeEmail(req.body.email);
-
-    const existingUser = await findUserByEmail(email);
-
-    if (existingUser) {
-        return res.status(409).json({
-            success: false,
-            message: "A user with this email already exists",
-        });
-    }
-
-    /*
-        This endpoint is only for testing the database layer.
-        Real password hashing will be implemented during
-        the Signup API phase.
-    */
-    const passwordHash = "PLACEHOLDER_HASH";
-
-    const user = await createUser({
-        name,
-        email,
-        passwordHash,
-    });
-
-    res.status(201).json({
-        success: true,
-        message: "Test user created",
-        data: serializeUser(user),
-    });
-};
-
 const updateUserById = async (req, res) => {
     const { id } = req.params;
 
@@ -154,7 +120,6 @@ export {
     getUsers,
     getUserById,
     getUserByEmail,
-    createTestUser,
     updateUserById,
     deleteUserById,
 };
