@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { isValidEmail } from "../utils/validation"
 import PasswordRequirements from "../components/PasswordRequirements";
+import { apiRequest } from "../../server/src/utils/api.js";
 
 function Signup({ onLogin }) {
     const [fullName, setFullName] = useState("");
@@ -18,7 +19,7 @@ function Signup({ onLogin }) {
     const [success, setSuccess] = useState("");
     const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
         const newErrors = {};
@@ -58,18 +59,67 @@ function Signup({ onLogin }) {
         }
 
         setErrors(newErrors);
+        setSuccess("");
 
         if (Object.keys(newErrors).length > 0) {
             return;
         }
 
         setLoading(true);
-        setSuccess("");
 
-        setTimeout(() => {
+        try {
+            const response = await apiRequest("/auth/signup", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: fullName,
+                    email,
+                    password,
+                    confirmPassword,
+                }),
+            });
+
+            setSuccess(response.message);
+
+            setFullName("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setAcceptedTerms(false);
+            setErrors({});
+        } catch (error) {
+            if (error.status === 409) {
+                setErrors({
+                    email: error.message,
+                });
+            } else if (
+                error.status === 400 &&
+                error.data?.errors
+            ) {
+                const backendErrors = {};
+
+                error.data.errors.forEach((validationError) => {
+                    const field = validationError.field;
+
+                    if (field === "name") {
+                        backendErrors.fullName =
+                            validationError.message;
+                    } else {
+                        backendErrors[field] =
+                            validationError.message;
+                    }
+                });
+
+                setErrors(backendErrors);
+            } else {
+                setErrors({
+                    form:
+                        error.message ||
+                        "Unable to create your account. Please try again.",
+                });
+            }
+        } finally {
             setLoading(false);
-            setSuccess("Account created successfully.");
-        }, 1500);
+        }
     }
 
     return (
@@ -144,6 +194,12 @@ function Signup({ onLogin }) {
             {errors.terms && (
                 <span className="error-message">
                     {errors.terms}
+                </span>
+            )}
+
+            {errors.form && (
+                <span className="error-message">
+                    {errors.form}
                 </span>
             )}
 
