@@ -98,6 +98,38 @@ const validateSignup = (body) => {
     return errors;
 };
 
+const validateLogin = (body) => {
+    const errors = [];
+
+    const { email, password } = body;
+
+    if (!email || typeof email !== "string") {
+        errors.push({
+            field: "email",
+            message: "Email is required",
+        });
+    } else if (email.trim().length > 255) {
+        errors.push({
+            field: "email",
+            message: "Email must not exceed 255 characters",
+        });
+    } else if (!isValidEmail(email.trim())) {
+        errors.push({
+            field: "email",
+            message: "Please provide a valid email address",
+        });
+    }
+
+    if (!password || typeof password !== "string") {
+        errors.push({
+            field: "password",
+            message: "Password is required",
+        });
+    }
+
+    return errors;
+};
+
 const normalizeEmail = (email) => {
     return email.trim().toLowerCase();
 };
@@ -110,6 +142,7 @@ export {
     isValidEmail,
     validateCreateUser,
     validateSignup,
+    validateLogin,
     normalizeEmail,
     normalizeName,
 };

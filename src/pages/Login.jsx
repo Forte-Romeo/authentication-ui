@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { isValidEmail } from "../utils/validation"
+import { apiRequest } from "../../server/src/utils/api.js"
 
 function Login({ onSignup, onForgotPassword }) {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ function Login({ onSignup, onForgotPassword }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const newErrors = {};
@@ -34,12 +35,48 @@ function Login({ onSignup, onForgotPassword }) {
     }
 
     setLoading(true);
-    setSuccess("");
 
-    setTimeout(() => {
+    try {
+      const response = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      setSuccess(response.message);
+
+      setEmail("");
+      setPassword("");
+      setErrors({});
+    } catch (error) {
+      if (error.status === 401) {
+        setErrors({
+          form: error.message,
+        });
+      } else if (
+        error.status === 400 &&
+        error.data?.errors
+      ) {
+        const backendErrors = {};
+
+        error.data.errors.forEach((validationError) => {
+          backendErrors[validationError.field] =
+            validationError.message;
+        });
+
+        setErrors(backendErrors);
+      } else {
+        setErrors({
+          form:
+            error.message ||
+            "Unable to sign in. Please try again.",
+        });
+      }
+    } finally {
       setLoading(false);
-      setSuccess("Login successful.");
-    }, 1500);
+    }
 }
 
   return (
@@ -89,6 +126,12 @@ function Login({ onSignup, onForgotPassword }) {
             Forgot password?
           </button>
         </div>
+
+        {errors.form && (
+          <span className="error-message">
+            {errors.form}
+          </span>
+        )}
 
         <Button type="submit" loading={loading}>
           Sign In

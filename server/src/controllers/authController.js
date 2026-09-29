@@ -8,7 +8,7 @@ import {
     normalizeName,
 } from "../utils/userValidation.js";
 
-import { hashPassword } from "../utils/password.js";
+import { hashPassword, comparePassword } from "../utils/password.js";
 import { serializeUser } from "../utils/userSerializer.js";
 
 const signup = async (req, res) => {
@@ -40,4 +40,36 @@ const signup = async (req, res) => {
     });
 };
 
-export { signup };
+const login = async (req, res) => {
+    const email = normalizeEmail(req.body.email);
+    const { password } = req.body;
+
+    const user = await findUserByEmail(email);
+
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid email or password",
+        });
+    }
+
+    const passwordMatches = await comparePassword(
+        password,
+        user.password_hash
+    );
+
+    if (!passwordMatches) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid email or password",
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Login successful",
+        data: serializeUser(user),
+    });
+};
+
+export { signup, login };
