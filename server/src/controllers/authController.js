@@ -11,6 +11,8 @@ import {
 import { hashPassword, comparePassword } from "../utils/password.js";
 import { serializeUser } from "../utils/userSerializer.js";
 
+import { generateAccessToken } from "../utils/jwt.js";
+
 const signup = async (req, res) => {
     const name = normalizeName(req.body.name);
     const email = normalizeEmail(req.body.email);
@@ -65,10 +67,15 @@ const login = async (req, res) => {
         });
     }
 
+    const accessToken = generateAccessToken(user);
+
     res.status(200).json({
         success: true,
         message: "Login successful",
-        data: serializeUser(user),
+        data: {
+            user: serializeUser(user),
+            accessToken,
+        }
     });
 };
 
