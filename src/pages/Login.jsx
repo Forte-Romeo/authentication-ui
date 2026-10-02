@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { isValidEmail } from "../utils/validation"
-import { apiRequest } from "../../server/src/utils/api.js"
+import { isValidEmail } from "../utils/validation";
+import { apiRequest } from "../../server/src/utils/api.js";
+import useAuth from "../context/useAuth.js";
 
 function Login({ onSignup, onForgotPassword }) {
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +47,8 @@ function Login({ onSignup, onForgotPassword }) {
           password,
         }),
       });
+
+      login(response.data);
 
       setSuccess(response.message);
 

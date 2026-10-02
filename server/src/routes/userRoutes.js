@@ -2,11 +2,13 @@ import express from "express";
 
 import {
     getUsers,
+    getCurrentUser,
     getUserById,
     getUserByEmail,
     updateUserById,
     deleteUserById,
 } from "../controllers/userController.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
 import asyncHandler from "../utils/asyncHandler.js";
 
@@ -20,6 +22,12 @@ router.get(
 router.get(
     "/search",
     asyncHandler(getUserByEmail)
+);
+
+router.get(
+    "/me",
+    authenticate,
+    asyncHandler(getCurrentUser)
 );
 
 router.get(

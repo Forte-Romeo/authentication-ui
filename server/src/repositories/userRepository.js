@@ -13,6 +13,7 @@ const findUserById = async (id) => {
                 updated_at
             FROM users
             WHERE id = $1
+            LIMIT 1
         `,
         [id]
     );

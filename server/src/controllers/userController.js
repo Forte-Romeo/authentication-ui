@@ -22,6 +22,22 @@ const getUsers = async (req, res) => {
     });
 };
 
+const getCurrentUser = async (req, res) => {
+    const user = await findUserById(req.user.id);
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: "User not found",
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        data: serializeUser(user),
+    });
+};
+
 const getUserById = async (req, res) => {
     const { id } = req.params;
 
@@ -118,6 +134,7 @@ const deleteUserById = async (req, res) => {
 
 export {
     getUsers,
+    getCurrentUser,
     getUserById,
     getUserByEmail,
     updateUserById,
