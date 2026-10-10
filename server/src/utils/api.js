@@ -3,7 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000
 const apiRequest = async (endpoint, options = {}, accessToken = null) => {
     const headers = {
         "Content-Type": "application/json",
-        ...options.headers,
+        ...(options.headers || {}),
     };
 
     if (accessToken) {
@@ -15,6 +15,7 @@ const apiRequest = async (endpoint, options = {}, accessToken = null) => {
         {
             headers,
             ...options,
+            credentials: "include",
         }
     );
 
@@ -22,7 +23,7 @@ const apiRequest = async (endpoint, options = {}, accessToken = null) => {
 
     if (!response.ok) {
         const error = new Error(
-            data.message || "Something went wrong"
+            data.message || "Something went wrong. Please try again."
         );
 
         error.status = response.status;

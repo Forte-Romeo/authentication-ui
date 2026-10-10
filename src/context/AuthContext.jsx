@@ -5,6 +5,8 @@ import {
     useState,
 } from "react";
 
+import { apiRequest } from "../../server/src/utils/api.js";
+
 const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
@@ -21,6 +23,24 @@ function AuthProvider({ children }) {
         setAccessToken(null);
     }, []);
 
+    const refreshAccessToken = useCallback(async () => {
+        const response = await apiRequest("/auth/refresh", {
+            method: "POST",
+        });
+
+        const newAccessToken = response?.data?.accessToken;
+
+        if (!newAccessToken) {
+            throw new Error(
+                "The server did not return a new access token."
+            );
+        }
+
+        setAccessToken(newAccessToken);
+
+        return newAccessToken;
+    }, []);
+
     const value = useMemo(
         () => ({
             user,
@@ -28,8 +48,9 @@ function AuthProvider({ children }) {
             isAuthenticated: Boolean(accessToken),
             login,
             logout,
+            refreshAccessToken,
         }),
-        [user, accessToken, login, logout]
+        [user, accessToken, login, logout, refreshAccessToken]
     );
 
     return (
