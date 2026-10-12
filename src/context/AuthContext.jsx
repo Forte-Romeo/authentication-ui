@@ -1,11 +1,12 @@
 import {
     createContext,
     useCallback,
+    useEffect,
     useMemo,
     useState,
 } from "react";
 
-import { apiRequest } from "../../server/src/utils/api.js";
+import { apiRequest, setRefreshAccessTokenHandler } from "../../server/src/utils/api.js";
 
 const AuthContext = createContext(null);
 
@@ -18,28 +19,56 @@ function AuthProvider({ children }) {
         setAccessToken(authData.accessToken);
     }, []);
 
-    const logout = useCallback(() => {
-        setUser(null);
-        setAccessToken(null);
+    const logout = useCallback(async () => {
+        try {
+            await apiRequest("/auth/logout", {
+                method: "POST",
+            });
+        } catch (error) {
+            console.error("Backend logout failed:", error.message);
+        } finally {
+            setUser(null);
+            setAccessToken(null);
+        }
     }, []);
 
     const refreshAccessToken = useCallback(async () => {
-        const response = await apiRequest("/auth/refresh", {
-            method: "POST",
-        });
+        try {
+            const response = await apiRequest("/auth/refresh", {
+                method: "POST",
+            });
 
-        const newAccessToken = response?.data?.accessToken;
+            const newAccessToken = response?.data?.accessToken;
 
-        if (!newAccessToken) {
-            throw new Error(
-                "The server did not return a new access token."
-            );
+            if (!newAccessToken) {
+                throw new Error(
+                    "The server did not return a new access token."
+                );
+            }
+
+            setAccessToken(newAccessToken);
+
+            return newAccessToken;
+        } catch (error) {
+            //An invalid, expired, or revoked refresh session
+            // requires the user to sign in again.
+            if (error.status === 401 || error.status === 403) {
+                logout();
+            }
+
+            // Network/server errors are propagated too, but do
+            // not automatically clear auth state.
+            throw error;
         }
+    }, [logout]);
 
-        setAccessToken(newAccessToken);
+    useEffect(() => {
+        setRefreshAccessTokenHandler(refreshAccessToken);
 
-        return newAccessToken;
-    }, []);
+        return () => {
+            setRefreshAccessTokenHandler(null);
+        };
+    }, [refreshAccessToken]);
 
     const value = useMemo(
         () => ({
