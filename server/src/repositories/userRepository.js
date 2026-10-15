@@ -7,7 +7,6 @@ const findUserById = async (id) => {
                 id,
                 name,
                 email,
-                password_hash,
                 role,
                 created_at,
                 updated_at
@@ -34,6 +33,7 @@ const findUserByEmail = async (email) => {
                 updated_at
             FROM users
             WHERE LOWER(email) = LOWER($1)
+            LIMIT 1
         `,
         [email]
     );
@@ -48,7 +48,6 @@ const findAllUsers = async () => {
                 id,
                 name,
                 email,
-                password_hash,
                 role,
                 created_at,
                 updated_at
