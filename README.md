@@ -1,321 +1,167 @@
-# 🔐 Authentication UI — React
+# 🔐 Authentication UI
 
-A modern and responsive **Authentication UI** built with React and Vite.
+A full-stack authentication application built with **React, Vite, Express.js, and PostgreSQL**. This project demonstrates user registration, login, protected routes, access tokens, secure refresh-cookie handling, session restoration, and logout.
 
-This project was built as a practical React learning project after completing the fundamentals of React. It focuses on building reusable components, managing state, passing props, handling forms, validating user input, and creating a polished user experience.
+🌐 **Live Demo:** [Forte Authentication UI](https://forte-authentication-ui.vercel.app/)
 
-The project includes Login, Sign Up, and Forgot Password views with frontend-only authentication flows.
+🚀 **Backend API:** [Authentication UI API](https://authentication-ui-s2kp.vercel.app/)
 
-> **Note:** This is a frontend authentication UI project. It does not connect to a backend, database, authentication provider, or real user accounts.
-
----
-
-## 📌 Project Overview
-
-The Authentication UI simulates the frontend experience of a modern authentication system.
-
-Users can:
-
-- Sign in
-- Create an account
-- Recover a forgotten password
-- Show and hide passwords
-- Receive validation feedback
-- See loading states
-- See success messages
-- Switch between authentication views
-
-The project was intentionally kept frontend-only so the focus remains on learning and applying React fundamentals.
+📦 **Repository:** [GitHub - Authentication UI](https://github.com/Forte-Romeo/authentication-ui)
 
 ---
 
-## ✨ Features
+## 📌 Table of Contents
 
-### 🔑 Login
-
-- Email input
-- Password input
-- Show/hide password
-- Remember me checkbox
-- Forgot password navigation
-- Sign-up navigation
-- Required-field validation
-- Email format validation
-- Loading state
-- Success message
-- Disabled submit button while submitting
-
-### 📝 Sign Up
-
-- Full name input
-- Email input
-- Password input
-- Confirm password input
-- Show/hide password
-- Password requirements
-- Password validation
-- Confirm-password validation
-- Terms & Conditions checkbox
-- Required-field validation
-- Email format validation
-- Loading state
-- Success message
-- Disabled submit button while submitting
-
-### 🔄 Forgot Password
-
-- Email input
-- Email validation
-- Required-field validation
-- Loading state
-- Reset-link success message
-- Navigation back to Login
-
-### 🎨 UI & UX
-
-- Clean authentication card layout
-- Responsive design
-- Mobile-friendly layout
-- Input focus states
-- Error states
-- Success states
-- Disabled button states
-- Password visibility controls
-- Password requirement indicators
-- Accessible form feedback
-- Consistent typography and spacing
-- Smooth UI transitions
+- [✨ Project Overview](#-project-overview)
+- [🚀 Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [🏗️ Project Architecture](#️-project-architecture)
+- [📂 Project Structure](#-project-structure)
+- [⚙️ Getting Started](#️-getting-started)
+- [🔑 Environment Variables](#-environment-variables)
+- [🔌 API Endpoints](#-api-endpoints)
+- [🔒 Authentication Flow](#-authentication-flow)
+- [🧪 Testing](#-testing)
+- [🌍 Deployment](#-deployment)
+- [🎯 Project Goals](#-project-goals)
+- [👨‍💻 Author](#-author)
+- [📄 License](#-license)
 
 ---
 
-## 🧠 React Concepts Practiced
-
-This project was built specifically to reinforce the React concepts learned during the React learning phase.
-
-### 1. JSX
-
-Used JSX to build the application's UI and structure.
-
-Example:
-
-```jsx
-<h2>Welcome back</h2>
-<p>Sign in to continue to your account.</p>
-```
-
-### 2. Components
-
-The application was broken into reusable components instead of placing everything inside one large component.
-
-Main reusable components include:
-
-- `AuthLayout`
-- `Input`
-- `Button`
-- `PasswordRequirements`
-
-The authentication views are also separated into individual page components:
-
-- `Login`
-- `Signup`
-- `ForgotPassword`
-
-### 3. Props
-
-Props are used to pass data and functions between components.
-
-Example:
-
-```jsx
-<Input
-  label="Email address"
-  type="email"
-  placeholder="Enter your email"
-/>
-```
-
-Functions are also passed as props:
-
-```jsx
-<Login
-  onSignup={() => setAuthMode("signup")}
-  onForgotPassword={() => setAuthMode("forgot")}
-/>
-```
-
-### 4. State with `useState`
-
-State is used to manage dynamic application data.
-
-Examples include:
-
-- Email
-- Password
-- Full name
-- Confirm password
-- Authentication view
-- Password visibility
-- Validation errors
-- Loading state
-- Success messages
-- Terms acceptance
-
-Example:
-
-```jsx
-const [email, setEmail] = useState("");
-```
-
-### 5. Event Handling
-
-The project handles several user events:
-
-- `onChange`
-- `onClick`
-- `onSubmit`
-
-Example:
-
-```jsx
-onChange={(event) => setEmail(event.target.value)}
-```
-
-### 6. Conditional Rendering
-
-Different authentication views are displayed depending on the current authentication mode.
-
-Example:
-
-```jsx
-{authMode === "login" && <Login />}
-{authMode === "signup" && <Signup />}
-{authMode === "forgot" && <ForgotPassword />}
-```
-
-### 7. Callback Props
-
-Child components communicate user actions back to the parent using callback functions passed through props.
-
-Example:
-
-```jsx
-<Login
-  onSignup={() => setAuthMode("signup")}
-/>
-```
-
-The child can then trigger:
-
-```jsx
-onSignup();
-```
-
-### 8. Controlled Components
-
-All form inputs are controlled by React state.
-
-Example:
-
-```jsx
-<Input
-  value={email}
-  onChange={(event) => setEmail(event.target.value)}
-/>
-```
-
-This allows React to keep track of the form values.
-
-### 9. Form Handling
-
-Forms use React event handling instead of relying on the browser's default form submission behavior.
-
-Example:
-
-```jsx
-function handleSubmit(event) {
-  event.preventDefault();
-
-  // validation and submission logic
-}
-```
-
-### 10. Conditional UI States
-
-The application changes its interface based on state.
-
-Examples:
-
-```text
-Normal
-   ↓
-Loading
-   ↓
-Success
-```
-
-and:
-
-```text
-Input
-   ↓
-Validation
-   ↓
-Error message
-```
-
-### 11. Rendering Lists with `.map()`
-
-The password requirements component uses `.map()` to dynamically render requirements.
-
-Example:
-
-```jsx
-requirements.map((requirement) => (
-  <li key={requirement.label}>
-    {requirement.label}
-  </li>
-))
-```
-
-### 12. Reusable Components
-
-The project demonstrates how common UI elements can be turned into reusable components.
-
-For example:
-
-```jsx
-<Button>Sign In</Button>
-
-<Button>Create Account</Button>
-
-<Button>Send Reset Link</Button>
-```
-
-All use the same reusable `Button` component.
-
-### 13. `children` Prop
-
-The `AuthLayout` component uses the `children` prop to allow different authentication pages to be rendered inside the same layout.
-
-Example:
-
-```jsx
-<AuthLayout>
-  <Login />
-</AuthLayout>
-```
-
-The content inside `AuthLayout` is rendered through:
-
-```jsx
-{children}
-```
+## ✨ Project Overview
+
+Authentication UI started as a React authentication interface and evolved into a full-stack application with a working backend and database.
+
+The application allows users to create accounts, log in, access protected resources, maintain their authenticated session through refresh cookies, and log out.
+
+The project was built as a hands-on learning experience to understand how frontend interfaces, backend APIs, databases, and authentication mechanisms work together in a real application.
+
+### 🎯 Main Objective
+
+To build and understand a complete authentication system, from designing the user interface to implementing server-side authentication, database integration, token management, and production deployment.
+
+---
+
+## 🚀 Features
+
+### 🎨 Frontend
+
+- Responsive authentication interface.
+- User registration and login forms.
+- Forgot-password interface.
+- Form validation and user feedback.
+- React component-based architecture.
+- Authentication state management.
+- Protected application views.
+- Session restoration when the application reloads.
+- Logout functionality.
+- API integration with the Express backend.
+
+### ⚙️ Backend
+
+- REST API built with Express.js.
+- User registration and login endpoints.
+- Password hashing and verification.
+- Access-token generation and verification.
+- Refresh-token validation and rotation.
+- HTTP-only refresh-cookie handling.
+- Protected API endpoints.
+- Logout and refresh-token revocation.
+- CORS configuration.
+- Environment-based configuration.
+- Centralized error handling.
+
+### 🗄️ Database
+
+- PostgreSQL integration.
+- Persistent user records.
+- Case-insensitive email uniqueness.
+- Stored refresh-token hashes.
+- Refresh-token expiration and revocation tracking.
+- Token rotation tracking.
+
+### 🌍 Production
+
+- Frontend deployed on Vercel.
+- Backend deployed on Vercel.
+- Production database hosted on Neon PostgreSQL.
+- Production environment variables configured separately from local development.
+- Browser-based verification of the deployed authentication flow.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology                                     | Purpose                                         |
+| ---------------------------------------------- | ----------------------------------------------- |
+| React                                          | Frontend UI                                     |
+| Vite                                           | Frontend development and build tooling          |
+| JavaScript (ES Modules)                        | Application logic                               |
+| CSS                                            | Styling and responsive layouts                  |
+| Node.js                                        | JavaScript runtime                              |
+| Express.js                                     | Backend REST API                                |
+| PostgreSQL                                     | Relational database                             |
+| `pg`                                           | PostgreSQL client for Node.js                   |
+| JWT                                            | Access-token authentication                     |
+| HTTP-only cookies                              | Refresh-token transport                         |
+| `bcrypt` / configured password-hashing library | Password hashing, if used by the implementation |
+| Supertest                                      | HTTP endpoint testing                           |
+| Node.js Test Runner                            | Automated tests                                 |
+| Vercel                                         | Application deployment                          |
+| Neon                                           | Hosted PostgreSQL database                      |
+| Git and GitHub                                 | Version control and source-code hosting         |
 
 ---
 
 ## 🏗️ Project Architecture
 
-The project follows a simple component-based React structure.
+The application follows a frontend–backend–database architecture.
+
+```text
+┌──────────────────────────────┐
+│         React + Vite         │
+│                              │
+│ Login · Signup · Auth State  │
+└──────────────┬───────────────┘
+               │
+               │ HTTP requests
+               │ Access token
+               │ Refresh cookie
+               ▼
+┌──────────────────────────────┐
+│       Express.js API         │
+│                              │
+│ Routes · Controllers         │
+│ Authentication · Validation  │
+│ Token Management             │
+└──────────────┬───────────────┘
+               │
+               │ SQL queries
+               ▼
+┌──────────────────────────────┐
+│         PostgreSQL           │
+│                              │
+│ Users · Refresh Tokens       │
+└──────────────────────────────┘
+```
+
+### 🧩 How the Components Work Together
+
+1. The React frontend collects user input.
+2. The frontend sends HTTP requests to the Express API.
+3. The backend validates requests and executes authentication logic.
+4. PostgreSQL stores user records and refresh-token metadata.
+5. The backend returns appropriate responses and issues authentication tokens when required.
+6. The frontend uses the access token for protected API requests.
+7. An HTTP-only cookie allows the application to refresh its session without exposing the refresh token to ordinary JavaScript access.
+8. Logging out revokes the current refresh token and clears the cookie.
+
+---
+
+## 📂 Project Structure
+
+The repository contains separate frontend and backend code.
 
 ```text
 authentication-ui/
@@ -323,1093 +169,348 @@ authentication-ui/
 ├── public/
 │
 ├── src/
-│   │
 │   ├── components/
-│   │   ├── AuthLayout.jsx
-│   │   ├── Button.jsx
-│   │   ├── Input.jsx
-│   │   └── PasswordRequirements.jsx
-│   │
+│   ├── context/
 │   ├── pages/
-│   │   ├── Login.jsx
-│   │   ├── Signup.jsx
-│   │   └── ForgotPassword.jsx
-│   │
 │   ├── utils/
-│   │   └── validation.js
-│   │
-│   ├── App.jsx
 │   ├── App.css
+│   ├── App.jsx
 │   ├── index.css
 │   └── main.jsx
 │
+├── server/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── database/
+│   │   ├── middleware/
+│   │   ├── repositories/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── app.js
+│   │   └── server.js
+│   │
+│   ├── tests/
+│   ├── package.json
+│   └── .env
+│
+├── .env.example
 ├── .gitignore
 ├── index.html
-├── package-lock.json
+├── LICENSE
 ├── package.json
 └── README.md
 ```
 
----
-
-## 📂 Folder & File Explanation
-
-### `src/components/`
-
-Contains reusable UI components.
-
-#### `AuthLayout.jsx`
-
-Provides the main authentication page and card layout.
-
-It uses the `children` prop to render different authentication pages inside the same layout.
+> 📌 This is a high-level overview. Individual filenames and folders may differ slightly depending on the current implementation.
 
 ---
 
-#### `Button.jsx`
+## ⚙️ Getting Started
 
-Reusable button component.
+Follow these instructions to run the application locally.
 
-Supports:
+### 📋 Prerequisites
 
-- Button text
-- Submit buttons
-- Loading state
-- Disabled state
+Install the following:
 
-Example:
-
-```jsx
-<Button
-  type="submit"
-  loading={loading}
->
-  Sign In
-</Button>
-```
-
----
-
-#### `Input.jsx`
-
-Reusable form input component.
-
-Supports:
-
-- Labels
-- Input types
-- Placeholders
-- Controlled values
-- Change events
-- Password visibility
-- Validation errors
-- Accessibility attributes
-
----
-
-#### `PasswordRequirements.jsx`
-
-Displays password requirements dynamically.
-
-The component checks whether the password:
-
-- Has at least 8 characters
-- Contains a number
-- Contains an uppercase letter
-
-The requirements update as the user types.
-
----
-
-### `src/pages/`
-
-Contains the different authentication views.
-
-#### `Login.jsx`
-
-Responsible for:
-
-- Login form
-- Email state
-- Password state
-- Password visibility
-- Login validation
-- Loading state
-- Success feedback
-- Navigation to Sign Up
-- Navigation to Forgot Password
-
----
-
-#### `Signup.jsx`
-
-Responsible for:
-
-- Registration form
-- Full name state
-- Email state
-- Password state
-- Confirm password state
-- Password visibility
-- Password requirements
-- Form validation
-- Terms acceptance
-- Loading state
-- Success feedback
-- Navigation back to Login
-
----
-
-#### `ForgotPassword.jsx`
-
-Responsible for:
-
-- Password recovery form
-- Email state
-- Email validation
-- Loading state
-- Success feedback
-- Navigation back to Login
-
----
-
-### `src/utils/`
-
-Contains reusable application logic.
-
-#### `validation.js`
-
-Contains reusable validation functions.
-
-Currently includes:
-
-```js
-isValidEmail()
-```
-
-Example:
-
-```js
-export function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-```
-
-This prevents the same email validation logic from being duplicated across multiple components.
-
----
-
-### `App.jsx`
-
-Acts as the main controller for the authentication views.
-
-It manages:
-
-```jsx
-const [authMode, setAuthMode] = useState("login");
-```
-
-and determines which authentication page is displayed.
-
----
-
-### `App.css`
-
-Contains the main styling for:
-
-- Authentication card
-- Forms
-- Inputs
-- Buttons
-- Error messages
-- Success messages
-- Password requirements
-- Checkboxes
-- Focus states
-- Responsive behavior
-
----
-
-### `index.css`
-
-Contains global styles and CSS resets.
-
----
-
-### `main.jsx`
-
-The entry point of the React application.
-
-It mounts the `App` component into the DOM.
-
----
-
-## 🔄 Application Flow
-
-The authentication views are controlled by state inside `App.jsx`.
-
-```text
-                         App
-                          │
-                    authMode state
-                          │
-            ┌─────────────┼─────────────┐
-            │             │             │
-            ▼             ▼             ▼
-          login         signup        forgot
-            │             │             │
-            ▼             ▼             ▼
-          Login         Signup      ForgotPassword
-            │             │             │
-            └─────────────┼─────────────┘
-                          │
-                    AuthLayout
-```
-
----
-
-## 🔑 Login Flow
-
-```text
-User opens application
-        ↓
-Login view appears
-        ↓
-User enters email
-        ↓
-User enters password
-        ↓
-User submits form
-        ↓
-React validates input
-        ↓
- ┌──────┴──────┐
- │             │
- ▼             ▼
-Invalid       Valid
- │             │
- ▼             ▼
-Errors       Loading
-shown          │
-               ▼
-            Success
-```
-
----
-
-## 📝 Sign Up Flow
-
-```text
-User opens Sign Up
-        ↓
-Enter full name
-        ↓
-Enter email
-        ↓
-Enter password
-        ↓
-Password requirements update
-        ↓
-Confirm password
-        ↓
-Accept Terms & Conditions
-        ↓
-Submit
-        ↓
-Validation
-        ↓
- ┌──────┴──────┐
- │             │
- ▼             ▼
-Invalid       Valid
- │             │
- ▼             ▼
-Errors       Loading
-shown          │
-               ▼
-            Success
-```
-
----
-
-## 🔄 Forgot Password Flow
-
-```text
-Login
-  ↓
-Forgot Password
-  ↓
-Enter Email
-  ↓
-Validate Email
-  ↓
- ┌──────┴──────┐
- │             │
- ▼             ▼
-Invalid       Valid
- │             │
- ▼             ▼
-Error        Loading
-               │
-               ▼
-            Success
-```
-
----
-
-## 🧩 Component Relationship
-
-```text
-App
-│
-└── AuthLayout
-    │
-    ├── Login
-    │   ├── Input
-    │   ├── Input
-    │   └── Button
-    │
-    ├── Signup
-    │   ├── Input
-    │   ├── Input
-    │   ├── Input
-    │   ├── PasswordRequirements
-    │   ├── Input
-    │   └── Button
-    │
-    └── ForgotPassword
-        ├── Input
-        └── Button
-```
-
----
-
-## 🛠️ Technologies Used
-
-### Frontend
-
-- React
-- JavaScript
-- JSX
-- CSS
-- HTML
-
-### Development Tools
-
-- Vite
+- [Node.js](https://nodejs.org/)
 - npm
-- Git
-- GitHub
-- VS Code
+- [PostgreSQL](https://www.postgresql.org/)
+- [Git](https://git-scm.com/)
 
----
+You should have a basic understanding of JavaScript, React, HTTP requests, and SQL.
 
-## 📦 Dependencies
-
-The project uses:
-
-- React
-- React DOM
-
-The application was created using Vite.
-
-No external UI framework or component library was used.
-
-No authentication library was used.
-
-No backend API is connected.
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to run the project locally.
-
-### 1. Clone the Repository
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/Forte-Romeo/authentication-ui.git
 ```
 
-### 2. Navigate Into the Project
+Navigate into the project:
 
 ```bash
 cd authentication-ui
 ```
 
-### 3. Install Dependencies
+### 2️⃣ Install Frontend Dependencies
+
+From the repository root:
 
 ```bash
 npm install
 ```
 
-### 4. Start the Development Server
+### 3️⃣ Install Backend Dependencies
+
+```bash
+cd server
+npm install
+```
+
+### 4️⃣ Configure the Database
+
+Create a local PostgreSQL database and ensure its connection details match the backend environment configuration.
+
+For example, if your local database is named `authentication_db`:
+
+```sql
+CREATE DATABASE authentication_db;
+```
+
+The database user must have the necessary permissions to create and access the tables required by the application.
+
+Apply the project's database schema using the migration or schema setup process included in the repository.
+
+### 5️⃣ Configure Environment Variables
+
+Create the required `.env` files using the examples below. Use your own local development values.
+
+**Backend — `server/.env`**
+
+```env
+NODE_ENV=development
+PORT=5000
+
+DATABASE_URL=postgresql://YOUR_DB_USER:YOUR_DB_PASSWORD@localhost:5432/YOUR_DB_NAME
+
+JWT_ACCESS_SECRET=YOUR_LOCAL_ACCESS_TOKEN_SECRET
+JWT_ACCESS_EXPIRES_IN=15m
+
+CLIENT_URL=http://localhost:5173
+```
+
+**Frontend — `.env` at the repository root**
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+⚠️ **Important:** These are example configurations. Check the actual environment-variable names used in the source code and provide every required variable. Never commit real secrets, passwords, production database URLs, or private keys to GitHub.
+
+### 6️⃣ Start the Backend
+
+Open a terminal:
+
+```bash
+cd server
+npm run dev
+```
+
+If the backend package does not define a development script, use its configured start command.
+
+### 7️⃣ Start the Frontend
+
+Open a second terminal at the repository root:
 
 ```bash
 npm run dev
 ```
 
-Vite will provide a local development URL, usually similar to:
+Vite will display the local development URL, normally:
 
 ```text
 http://localhost:5173
 ```
 
-Open the URL in your browser.
-
----
-
-## 🧪 Testing the Application
-
-### Login Testing
-
-Try submitting the login form without entering anything.
-
-Expected result:
+The backend normally runs at:
 
 ```text
-Email is required.
-Password is required.
+http://localhost:5000
 ```
 
-Try an invalid email:
-
-```text
-abc
-```
-
-Expected result:
-
-```text
-Please enter a valid email address.
-```
-
-Try valid login input:
-
-```text
-romeo@example.com
-password123
-```
-
-Expected result:
-
-```text
-Please wait...
-```
-
-followed by:
-
-```text
-Login successful.
-```
+Make sure the frontend API URL matches the address where the backend is running.
 
 ---
 
-### Sign Up Testing
+## 🔑 Environment Variables
 
-Test the following:
+The application uses environment variables to separate configuration from source code.
 
-- Empty full name
-- Empty email
-- Invalid email
-- Empty password
-- Password shorter than 8 characters
-- Password without a number
-- Password without an uppercase letter
-- Mismatched passwords
-- Terms not accepted
+| Variable                | Purpose                                       |
+| ----------------------- | --------------------------------------------- |
+| `NODE_ENV`              | Determines the runtime environment            |
+| `PORT`                  | Backend server port                           |
+| `DATABASE_URL`          | PostgreSQL connection string                  |
+| `JWT_ACCESS_SECRET`     | Secret used to sign access tokens             |
+| `JWT_ACCESS_EXPIRES_IN` | Access-token lifetime                         |
+| `CLIENT_URL`            | Allowed frontend origin for local development |
+| `FRONTEND_URL`          | Production frontend origin, when required     |
+| `VITE_API_BASE_URL`     | Frontend API base URL                         |
 
-Each should produce appropriate validation feedback.
+Only variables actually read by the application need to be configured. Check `server/src/config/env.js` and the frontend API configuration for the exact requirements.
 
----
-
-### Password Visibility Testing
-
-Click:
-
-```text
-Show
-```
-
-to reveal the password.
-
-Click:
-
-```text
-Hide
-```
-
-to hide the password again.
+🔐 Keep backend secrets on the server. Frontend variables prefixed with `VITE_` are exposed to the client bundle and must never contain secrets.
 
 ---
 
-### Forgot Password Testing
+## 🔌 API Endpoints
 
-Try:
+The backend exposes authentication and protected-resource endpoints under `/api`.
 
-```text
-Empty email
-Invalid email
-Valid email
-```
+| Method | Endpoint            | Purpose                                             |
+| ------ | ------------------- | --------------------------------------------------- |
+| `POST` | `/api/auth/signup`  | Register a user                                     |
+| `POST` | `/api/auth/login`   | Authenticate a user                                 |
+| `POST` | `/api/auth/refresh` | Refresh authentication and rotate the refresh token |
+| `POST` | `/api/auth/logout`  | Log out and revoke the current refresh token        |
+| `GET`  | `/api/users/me`     | Retrieve the authenticated user's information       |
+| `GET`  | `/api/users`        | Access a protected users endpoint                   |
 
-A valid email should eventually display:
+Protected endpoints require a valid access token unless the implementation specifies otherwise.
 
-```text
-If an account exists with this email, a reset link has been sent.
-```
-
----
-
-## 📱 Responsive Design
-
-The UI was designed to work across different screen sizes.
-
-Test the application on:
-
-- Desktop
-- Laptop
-- Tablet
-- Mobile
-
-The authentication card automatically adapts to smaller screens.
-
-The project includes a mobile breakpoint for screens below 480px.
+⚠️ The table describes the intended endpoints. Request fields, response shapes, and any additional routes should be checked against the current route and controller files before using the API independently.
 
 ---
 
-## ♿ Accessibility
+## 🔒 Authentication Flow
 
-Several basic accessibility practices were implemented.
+### 📝 1. Registration
 
-### Labels
+1. The user submits the registration form.
+2. The frontend sends the details to the backend.
+3. The backend validates the request and hashes the password.
+4. The user record is stored in PostgreSQL.
+5. The application returns an appropriate response.
 
-Inputs are associated with labels using:
+### 🔑 2. Login
 
-```jsx
-<label htmlFor={id}>
-```
+1. The user submits their credentials.
+2. The backend verifies the user's credentials.
+3. An access token is issued.
+4. A refresh token is stored server-side as a hash and delivered through an HTTP-only cookie.
+5. The frontend uses the access token to request protected resources.
 
-and:
+### ♻️ 3. Session Restoration and Token Refresh
 
-```jsx
-<input id={id}>
-```
+When the application starts or the access token needs refreshing:
 
----
+1. The frontend sends a refresh request with the refresh cookie.
+2. The backend validates the refresh token.
+3. The previous refresh token is revoked as part of rotation.
+4. A replacement refresh token is issued.
+5. The backend returns a new access token and updates the cookie.
 
-### Validation Feedback
+This allows the application to restore a valid session without requiring the user to log in again every time the page reloads.
 
-Invalid inputs use:
+### 🛡️ 4. Protected Routes
 
-```html
-aria-invalid
-```
+Protected API endpoints verify the access token before returning private resources.
 
-and:
+Missing, invalid, or expired access tokens are rejected instead of being treated as authenticated requests.
 
-```html
-aria-describedby
-```
+### 🚪 5. Logout
 
-to associate inputs with their error messages.
+1. The frontend sends a logout request.
+2. The backend revokes the current refresh token when it is valid.
+3. The refresh cookie is cleared.
+4. The frontend clears its authentication state.
 
----
-
-### Password Controls
-
-Password visibility buttons include descriptive `aria-label` values.
-
----
-
-### Keyboard Support
-
-The forms use standard HTML inputs and buttons, allowing normal keyboard navigation.
+Revoking a refresh token prevents it from being used to obtain another access token through the normal refresh flow. An access token already issued may remain valid until it expires unless the application implements additional access-token revocation.
 
 ---
 
-## 🎨 Design Direction
+## 🧪 Testing
 
-The interface uses a minimal, clean authentication aesthetic.
+The backend uses the Node.js built-in test runner and Supertest for automated API tests.
 
-### Design Principles
-
-- Minimal
-- Modern
-- Clean
-- Professional
-- Responsive
-- Accessible
-- Simple
-
-### Visual Style
-
-The design uses:
-
-- Neutral colors
-- White authentication card
-- Dark primary buttons
-- Soft borders
-- Subtle shadows
-- Rounded corners
-- Minimal visual distractions
-
----
-
-## 🎯 Project Goals
-
-The primary purpose of this project was not to build a production authentication system.
-
-The goal was to practice React fundamentals by building something realistic.
-
-The project helped reinforce:
-
-```text
-Components
-Props
-State
-Events
-Conditional Rendering
-Forms
-Controlled Inputs
-Validation
-Reusable Components
-Array Rendering
-UX States
-Accessibility
-Responsive Design
-```
-
----
-
-## 🚧 Current Limitations
-
-This project is frontend-only.
-
-There is currently no:
-
-- Backend
-- Database
-- Real user registration
-- Real login authentication
-- Password hashing
-- JWT authentication
-- Session management
-- OAuth
-- Email verification
-- Password reset email
-- API integration
-
-The authentication requests are simulated using:
-
-```js
-setTimeout()
-```
-
-For example:
-
-```js
-setTimeout(() => {
-  setLoading(false);
-  setSuccess("Login successful.");
-}, 1500);
-```
-
-This is intentionally simulated because the purpose of this project is to practice React frontend development.
-
----
-
-## 🔮 Future Improvements
-
-Possible future versions could add the following.
-
-### 1. Authentication Backend
-
-Connect the React frontend to a real backend.
-
-```text
-React
-   ↓
-REST API
-   ↓
-Backend
-   ↓
-Database
-```
-
----
-
-### 2. Real Authentication
-
-Implement:
-
-- User registration
-- Login
-- Logout
-- Password hashing
-- Session management
-- JWT authentication
-- Protected routes
-
----
-
-### 3. Password Reset
-
-Implement:
-
-```text
-Forgot Password
-      ↓
-Backend
-      ↓
-Email Service
-      ↓
-Reset Link
-      ↓
-Reset Password
-```
-
----
-
-### 4. Email Verification
-
-After registration:
-
-```text
-Create Account
-      ↓
-Verification Email
-      ↓
-Verify Email
-      ↓
-Account Activated
-```
-
----
-
-### 5. Social Authentication
-
-Possible future providers:
-
-- Google
-- GitHub
-- Apple
-
----
-
-### 6. React Router
-
-The current project switches views using React state.
-
-A future version could use React Router with routes such as:
-
-```text
-/login
-/signup
-/forgot-password
-```
-
----
-
-### 7. API Integration
-
-The simulated:
-
-```js
-setTimeout()
-```
-
-could eventually be replaced with:
-
-```js
-fetch()
-```
-
-or another API client.
-
----
-
-### 8. Authentication Dashboard
-
-After successful authentication, the project could be extended with a protected dashboard.
-
-Example:
-
-```text
-Login
-  ↓
-Authentication
-  ↓
-Dashboard
-  ↓
-User Profile
-  ↓
-Settings
-  ↓
-Logout
-```
-
----
-
-## 📚 What I Learned
-
-Building this project helped me understand how individual React concepts work together in a real application.
-
-Instead of learning:
-
-```text
-Components
-Props
-State
-Events
-```
-
-as isolated concepts, I was able to combine them into an actual project.
-
-One of the biggest lessons from the project was understanding the relationship between parent and child components.
-
-```text
-Parent
-  │
-  │ passes props
-  ▼
-Child
-  │
-  │ triggers callback
-  ▼
-Parent state changes
-  │
-  ▼
-React re-renders
-```
-
-This pattern is fundamental to building React applications.
-
----
-
-## 📈 Learning Progression
-
-This project was built progressively through multiple phases.
-
-### Phase 1 — Project Setup & Cleanup
-
-- Cleaned the default Vite files
-- Established the React project structure
-
-### Phase 2 — Static Authentication Dashboard/UI
-
-- Built the initial authentication interface
-- Created the visual layout
-
-### Phase 3 — Componentization & Props
-
-- Created reusable components
-- Introduced props
-- Reduced duplicated UI code
-
-### Phase 4 — State & Interactivity
-
-- Added `useState`
-- Added password visibility
-- Added interactive authentication view switching
-
-### Phase 5 — Login, Sign Up & Forgot Password Views
-
-- Created separate authentication pages
-- Introduced page-level component organization
-- Used callback props for navigation
-
-### Phase 6 — Form Handling, Validation & UX
-
-- Added form submission
-- Added validation
-- Added error states
-- Added loading states
-- Added success states
-
-### Phase 7 — Final UX Polish & Project Cleanup
-
-- Improved visual hierarchy
-- Improved responsiveness
-- Added accessibility improvements
-- Added password requirements
-- Improved input states
-- Improved button states
-- Cleaned project architecture
-- Removed unnecessary code
-
----
-
-## 📊 Project Status
-
-```text
-Frontend UI              ✅ Complete
-React Components         ✅ Complete
-Props                    ✅ Complete
-State                    ✅ Complete
-Forms                    ✅ Complete
-Validation               ✅ Complete
-Loading States           ✅ Complete
-Success States           ✅ Complete
-Responsive Design        ✅ Complete
-Accessibility            ✅ Complete
-Project Cleanup          ✅ Complete
-Backend                  ❌ Not Implemented
-Database                 ❌ Not Implemented
-Real Authentication      ❌ Not Implemented
-```
-
----
-
-## 📸 Application Views
-
-The application contains three primary authentication views.
-
-### Login
-
-```text
-FORTE AUTH
-
-Welcome back
-
-Sign in to continue to your account.
-
-Email address
-[________________________]
-
-Password
-[________________________]
-
-☐ Remember me       Forgot password?
-
-[       Sign In       ]
-
-Don't have an account? Sign up
-```
-
-### Sign Up
-
-```text
-FORTE AUTH
-
-Create an account
-
-Join Forte and get started today.
-
-Full name
-[________________________]
-
-Email address
-[________________________]
-
-Password
-[________________________]
-
-Password requirements:
-
-✓ At least 8 characters
-✓ Contains a number
-○ Contains an uppercase letter
-
-Confirm password
-[________________________]
-
-☐ I agree to the Terms & Conditions
-
-[    Create Account    ]
-
-Already have an account? Sign in
-```
-
-### Forgot Password
-
-```text
-FORTE AUTH
-
-Forgot password?
-
-Enter your email and we'll send you
-a password reset link.
-
-Email address
-[________________________]
-
-[    Send Reset Link    ]
-
-Remember your password? Sign in
-```
-
----
-
-## 💻 Available Scripts
-
-### Start Development Server
+From the backend directory, run:
 
 ```bash
-npm run dev
+npm test
 ```
 
-### Build for Production
+The current test suite covers cases such as:
+
+- Unknown routes returning `404`.
+- Malformed JSON returning `400`.
+- Protected endpoints rejecting missing access tokens.
+- Protected endpoints rejecting invalid access tokens.
+- Authentication endpoints rejecting requests without an Origin where required.
+- Refresh requests enforcing the expected origin and cookie behavior.
+
+The frontend can also be checked using the production build.
+
+From the repository root:
 
 ```bash
 npm run build
 ```
 
-### Preview Production Build
+A successful build confirms that Vite can compile the frontend. It does not replace browser-based functional testing.
 
-```bash
-npm run preview
-```
+### ✅ Manual Verification Checklist
 
-### Run ESLint
-
-```bash
-npm run lint
-```
+- [ ] A user can register.
+- [ ] A registered user can log in.
+- [ ] Invalid credentials are rejected.
+- [ ] Protected resources reject missing or invalid access tokens.
+- [ ] A valid session can be restored after a page reload.
+- [ ] Refresh-token rotation works.
+- [ ] Logout clears the session and revokes the refresh token.
+- [ ] Logged-out users remain logged out after reloading.
+- [ ] The frontend and backend work in production.
 
 ---
 
-## 🌱 Future Learning Path
+## 🌍 Deployment
 
-This project is part of a broader frontend development learning journey.
+The application is deployed using Vercel and Neon PostgreSQL.
 
-The concepts learned here provide a foundation for more advanced React development.
+| Component           | Platform |
+| ------------------- | -------- |
+| Frontend            | Vercel   |
+| Backend API         | Vercel   |
+| PostgreSQL database | Neon     |
 
-```text
-React Fundamentals
-       ↓
-Components
-       ↓
-Props
-       ↓
-State
-       ↓
-Forms
-       ↓
-Authentication UI
-       ↓
-React Router
-       ↓
-useEffect
-       ↓
-API Integration
-       ↓
-Advanced React
-       ↓
-Full-Stack Development
-```
+### 🚀 Production URLs
+
+**Frontend:** [https://forte-authentication-ui.vercel.app/](https://forte-authentication-ui.vercel.app/)
+
+**Backend:** [https://authentication-ui-s2kp.vercel.app/](https://authentication-ui-s2kp.vercel.app/)
+
+### Deployment Notes
+
+- Configure frontend and backend environment variables in their respective deployment settings.
+- Use the production database connection string only in the backend environment.
+- Configure CORS for the intended frontend origin.
+- Ensure refresh-cookie settings are compatible with the deployed frontend and backend origins.
+- Never expose database credentials or token-signing secrets in the frontend bundle or public repository.
+- Verify registration, login, session restoration, protected requests, token refresh, and logout after deployment.
+
+---
+
+## 🎯 Project Goals
+
+This project was built to develop practical experience with:
+
+- ⚛️ Building React applications.
+- 🔌 Connecting a frontend to a REST API.
+- 🖥️ Developing backend services with Node.js and Express.
+- 🗄️ Designing and querying a PostgreSQL database.
+- 🔐 Implementing authentication and authorization.
+- 🎟️ Understanding access tokens and refresh-token rotation.
+- 🍪 Working with HTTP-only cookies.
+- 🧪 Writing automated backend tests.
+- 🌍 Deploying a full-stack application.
+- 🧰 Debugging real integration issues across frontend, backend, and database layers.
+
+The goal is not only to make authentication work, but to understand the responsibilities of each part of the system and how they fit together.
 
 ---
 
 ## 👨‍💻 Author
 
-**Ferguson (Forte) Romeo**
+**Ferguson Kwabena Romeo Nyarmah (Forte Romeo)**
 
-BSc Information Technology Student 
+Information Technology student | Aspiring Software + AI Engineer
 
-Aspiring Software + AI Engineer
+I build projects to strengthen my understanding of software engineering, backend systems, databases, and full-stack application development.
 
-This project was built as part of my journey toward becoming a professional software engineer.
+- 💻 GitHub: [Forte-Romeo](https://github.com/Forte-Romeo)
+- 🌐 Portfolio: [forteromeo.dev](https://forte-romeo-portfolio.vercel.app/)
+- 🔗 LinkedIn: [Find me on LinkedIn](https://www.linkedin.com/in/ferguson-romeo-nyarmah)
 
 ---
 
@@ -1421,50 +522,4 @@ You are free to study, modify, and build upon the code for educational purposes.
 
 ---
 
-## 🔗 Project Links
-
-### GitHub Repository
-
-```text
-https://github.com/Forte-Romeo/authentication-ui
-```
-
----
-
-## ⭐ Final Note
-
-This project represents a transition from simply learning React syntax to actually using React to build an interactive application.
-
-The project intentionally focuses on the fundamentals:
-
-```text
-React
-+
-Components
-+
-Props
-+
-State
-+
-Events
-+
-Forms
-+
-Validation
-+
-Reusable UI
-+
-UX
-+
-Accessibility
-```
-
-The Authentication UI is now complete as a frontend React project.
-
-The next step is to continue building projects that introduce new React concepts while reusing the fundamentals learned here.
-
----
-
-## 🔐 Authentication UI — React
-
-Built with React + Vite.
+⭐ If you find this project useful as a learning reference, feel free to explore the code and follow the development journey.
