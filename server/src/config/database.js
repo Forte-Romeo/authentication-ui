@@ -1,5 +1,6 @@
 import pg from "pg";
 import env from "./env.js";
+import { attachDatabasePool } from "@vercel/functions";
 
 const { Pool } = pg;
 
@@ -8,12 +9,14 @@ const pool = new Pool({
 
     // Connection pool limits.
     max: 10,
-    idleTimeoutMillis: 30_000,
+    idleTimeoutMillis: 5_000,
     connectionTimeoutMillis: 5_000,
 
     // Prevent individual queries from running indefinitely.
     statement_timeout: 15_000,
 });
+
+attachDatabasePool(pool);
 
 pool.on("error", (error) => {
     console.error(

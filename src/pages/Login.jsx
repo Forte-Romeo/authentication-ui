@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { isValidEmail } from "../utils/validation";
-import { apiRequest } from "../../server/src/utils/api.js";
+import { apiRequest } from "../utils/api.js";
 import useAuth from "../context/useAuth.js";
 
 function Login({ onSignup, onForgotPassword }) {

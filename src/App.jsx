@@ -14,11 +14,13 @@ import "./App.css";
 function App() {
   const [authMode, setAuthMode] = useState("login");
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isInitializing } = useAuth();
 
   return (
     <AuthLayout>
-      {isAuthenticated ? (
+      {isInitializing ? (
+        <p>Restoring your session...</p>
+      ) : isAuthenticated ? (
         <AuthenticatedUser />
       ) : (
         <>

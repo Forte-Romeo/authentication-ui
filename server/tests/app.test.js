@@ -56,3 +56,29 @@ test("current-user endpoint rejects an invalid access token", async () => {
     assert.equal(response.status, 401);
     assert.equal(response.body.success, false);
 });
+
+
+test("authentication endpoints reject requests without an Origin header", async () => {
+    const response = await request(app)
+        .post("/api/auth/refresh");
+
+    assert.equal(response.status, 403);
+    assert.equal(response.body.success, false);
+    assert.equal(
+        response.body.message,
+        "Request origin is not allowed."
+    );
+});
+
+test("authentication endpoints accept the configured frontend origin", async () => {
+    const response = await request(app)
+        .post("/api/auth/refresh")
+        .set("Origin", "http://localhost:5173");
+
+    assert.equal(response.status, 401);
+    assert.equal(response.body.success, false);
+    assert.equal(
+        response.body.message,
+        "Refresh token required"
+    );
+});

@@ -6,13 +6,14 @@ import {
     useState,
 } from "react";
 
-import { apiRequest, setRefreshAccessTokenHandler } from "../../server/src/utils/api.js";
+import { apiRequest, setRefreshAccessTokenHandler } from "../utils/api.js";
 
 const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
+    const [isInitializing, setIsInitializing] = useState(true);
 
     const login = useCallback((authData) => {
         setUser(authData.user);
@@ -53,7 +54,7 @@ function AuthProvider({ children }) {
             //An invalid, expired, or revoked refresh session
             // requires the user to sign in again.
             if (error.status === 401 || error.status === 403) {
-                logout();
+                await logout();
             }
 
             // Network/server errors are propagated too, but do
@@ -63,9 +64,31 @@ function AuthProvider({ children }) {
     }, [logout]);
 
     useEffect(() => {
+        let isMounted = true;
+
         setRefreshAccessTokenHandler(refreshAccessToken);
 
+        const restoreSession = async () => {
+            try {
+                await refreshAccessToken();
+            } catch (error) {
+                if (error.status !== 401 && error.status !== 403) {
+                    console.error(
+                        "Session restoration failed:",
+                        error.message
+                    );
+                }
+            } finally {
+                if (isMounted) {
+                    setIsInitializing(false);
+                }
+            }
+        };
+
+        restoreSession();
+
         return () => {
+            isMounted = false;
             setRefreshAccessTokenHandler(null);
         };
     }, [refreshAccessToken]);
@@ -75,11 +98,12 @@ function AuthProvider({ children }) {
             user,
             accessToken,
             isAuthenticated: Boolean(accessToken),
+            isInitializing,
             login,
             logout,
             refreshAccessToken,
         }),
-        [user, accessToken, login, logout, refreshAccessToken]
+        [user, accessToken, isInitializing, login, logout, refreshAccessToken]
     );
 
     return (

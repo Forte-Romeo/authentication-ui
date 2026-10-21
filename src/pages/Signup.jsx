@@ -3,7 +3,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { isValidEmail } from "../utils/validation"
 import PasswordRequirements from "../components/PasswordRequirements";
-import { apiRequest } from "../../server/src/utils/api.js";
+import { apiRequest } from "../utils/api.js";
 
 function Signup({ onLogin }) {
     const [fullName, setFullName] = useState("");

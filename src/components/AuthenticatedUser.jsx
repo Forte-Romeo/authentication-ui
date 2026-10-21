@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "../../server/src/utils/api.js";
+import { apiRequest } from "../utils/api.js";
 import useAuth from "../context/useAuth.js";
 
 function AuthenticatedUser() {
